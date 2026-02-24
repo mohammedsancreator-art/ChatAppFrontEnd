@@ -77,20 +77,21 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  connectSocket: () => {
-    const { authUser, socket } = get();
-    if (!authUser || socket?.connected) return;
+ connectSocket: () => {
+  const { authUser, socket } = get();
+  if (!authUser || socket?.connected) return;
 
-    const newSocket = io(BASE_URL, {
-      withCredentials: true,
-    });
+  const newSocket = io("https://chatappbackend-2t91.onrender.com", {
+    withCredentials: true,
+    transports: ["websocket"], // مهم أحياناً على Render
+  });
 
-    set({ socket: newSocket });
+  set({ socket: newSocket });
 
-    newSocket.on("getOnlineUsers", (userIds) => {
-      set({ onlineUsers: userIds });
-    });
-  },
+  newSocket.on("getOnlineUsers", (userIds) => {
+    set({ onlineUsers: userIds });
+  });
+},
 
   disconnectSocket: () => {
     const { socket } = get();
