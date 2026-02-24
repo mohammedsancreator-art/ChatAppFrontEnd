@@ -3,7 +3,7 @@ import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
-const BASE_URL = import.meta.env.MODE === "development" ? "https://chatappbackend-2t91.onrender.com" : "/";
+const BASE_URL = "https://chatappbackend-v2.onrender.com";
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
@@ -81,9 +81,9 @@ export const useAuthStore = create((set, get) => ({
   const { authUser, socket } = get();
   if (!authUser || socket?.connected) return;
 
-  const newSocket = io("https://chatappbackend-2t91.onrender.com", {
+  const newSocket = io(BASE_URL, {
     withCredentials: true,
-    transports: ["websocket"], // مهم أحياناً على Render
+    transports: ["websocket"],
   });
 
   set({ socket: newSocket });
